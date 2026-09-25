@@ -27,7 +27,7 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
         </span>
         <span style="font:800 20px/1 'Baloo 2',sans-serif;padding-top:3px">Matemática que se toca</span>
       </a>
-      <nav style="display:flex;gap:6px;overflow-x:auto;flex:1;scrollbar-width:none;padding:2px 0">
+      <nav style="display:flex;flex-wrap:wrap;gap:4px 6px;flex:1;min-width:0;padding:2px 0">
         <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
           <button onClick="{{ n.go }}" style="flex:none;display:flex;align-items:center;gap:7px;border:0;background:transparent;padding:7px 12px;border-radius:999px;font:700 14px 'Atkinson Hyperlegible',sans-serif;color:#1E2238;cursor:pointer" style-hover="background:#fff">
             <span style="width:10px;height:10px;border-radius:50%;background:{{ n.c }}"></span>{{ n.label }}
@@ -92,7 +92,7 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
   </section>
 
   <sc-for list="{{ secs }}" as="s" hint-placeholder-count="3">
-    <section id="{{ s.id }}" style="scroll-margin-top:64px">
+    <section id="{{ s.id }}" style="scroll-margin-top:110px">
       <div style="background:{{ s.c }};color:{{ s.ink }}">
         <div style="max-width:1240px;margin:0 auto;padding:44px 20px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap">
           <span style="width:92px;height:92px;flex:none;border-radius:30px;background:#fff;color:{{ s.c }};display:grid;place-items:center;font:800 44px/1 'Baloo 2',sans-serif;padding-top:6px;transform:rotate(-5deg)">{{ s.num }}</span>
@@ -204,7 +204,7 @@ class Component extends DCLogic {
   }
   go(id) {
     const el = document.getElementById(id);
-    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: 'smooth' });
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - (document.querySelector('header')?.offsetHeight || 64) - 8, behavior: 'smooth' });
   }
   renderVals() {
     const d = this.state.d;
