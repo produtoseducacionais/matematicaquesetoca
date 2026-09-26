@@ -156,6 +156,20 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
                   <button onClick="{{ nextF }}" aria-label="Próxima ficha" style="width:48px;height:48px;border-radius:50%;border:0;background:#fff;color:#1E2238;font:800 22px sans-serif;cursor:pointer">→</button>
                 </div>
               </div>
+              <div style="padding:24px 28px 8px;display:flex;flex-direction:column;gap:12px">
+                <h4 style="margin:0;display:flex;align-items:center;gap:10px;font:800 24px/1.1 'Baloo 2',sans-serif;color:{{ cur.c }}"><span style="width:34px;height:34px;border-radius:50%;background:{{ cur.c }};color:{{ cur.ink }};display:grid;place-items:center;font-size:14px;padding-left:3px">▶</span>Vídeo da confecção</h4>
+                <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:center">
+                  <div style="flex:0 1 {{ vidBasis }};min-width:260px">
+                    <dc-import name="GuiaBlocos" blocks="{{ videoBlocks }}" accent="{{ cur.c }}" tint="{{ cur.t }}" hint-size="100%,500px"></dc-import>
+                  </div>
+                  <div style="flex:1 1 320px;min-width:0;background:{{ cur.t }};border-radius:28px;padding:28px 30px;display:flex;flex-direction:column;gap:14px;position:relative">
+                    <span style="align-self:flex-start;background:{{ cur.c }};color:{{ cur.ink }};border-radius:999px;padding:6px 16px;font:800 16px 'Baloo 2',sans-serif;transform:rotate(-2deg)">O que é?</span>
+                    <sc-for list="{{ oque }}" as="p">
+                      <p style="margin:0;font-size:20px;line-height:1.55;text-align:justify;hyphens:auto" lang="pt-BR">{{ p }}</p>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
               <div style="display:flex;gap:8px;overflow-x:auto;padding:16px 20px;background:{{ cur.t }}">
                 <sc-for list="{{ tabs }}" as="tb">
                   <button onClick="{{ tb.pick }}" style="flex:none;border:3px solid {{ tb.bd }};background:{{ tb.bg }};color:{{ tb.fg }};font:800 16px 'Baloo 2',sans-serif;padding:8px 18px 5px;border-radius:999px;cursor:pointer">{{ tb.name }}</button>
@@ -215,7 +229,7 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;expandAll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Leitura&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;expandAll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Leitura&quot;}}">
 class Component extends DCLogic {
   state = { d: null, f: 0, tab: 0, page: (location.hash || '').slice(1) };
   componentDidMount() {
@@ -248,6 +262,7 @@ class Component extends DCLogic {
       reflexoes: 'O que a experiência ensinou',
       referencias: 'Obras citadas neste guia',
       autoras: 'Quem elaborou este guia',
+      videos: 'Assista à confecção de cada recurso',
       apendices: 'Moldes, cartelas e fichas prontos para imprimir'
     };
     const PAL = [['#2F6FE0', '#fff'], ['#FFC531', '#1E2238'], ['#EE3B4A', '#fff'], ['#1FAA64', '#fff'], ['#E6398F', '#fff'], ['#FF7A1A', '#1E2238'], ['#0FA3B1', '#fff'], ['#7C4DFF', '#fff'], ['#2F6FE0', '#fff'], ['#EE3B4A', '#fff']];
@@ -272,13 +287,16 @@ class Component extends DCLogic {
     const org = d.meta.organizacao || { paras: [] };
     return {
       isHome: idx < 0, meta: d.meta, links: d.meta.links.map(l => l.startsWith('http') ? l : 'http://' + l), beads, nav, secs: view, tiles, tabs, cur,
-      pdfHref: 'Ficha.dc.html?n=' + parseInt(cur.n) + '&imprimir=1',
+      videoBlocks: cur.videoBlocks || [],
+      oque: cur.oque || [],
+      vidBasis: (cur.videoBlocks && cur.videoBlocks[0] && cur.videoBlocks[0].yt && !cur.videoBlocks[0].vertical) ? '560px' : '360px',
+      pdfHref: cur.pdf || ('Ficha.dc.html?n=' + parseInt(cur.n) + '&imprimir=1'),
       tabBlocks: tab.blocks, tabTitle: tab.full,
       hasResumo: !!cur.resumo, resumoBlocks: cur.resumo ? [cur.resumo] : [],
       fichasCap: d.fichasIntro.cap, fichasSrc: d.fichasIntro.src,
       orgLead: 'Onze paradas, cada uma com sua cor. Cada ficha é independente e pode ser usada isoladamente.',
       orgTip: org.paras[1] || '',
-      expandAll: !!this.props.expandAll,
+      expandAll: this.props.expandAll !== false,
       goTop: e => { e.preventDefault(); this.nav(''); },
       goOrg: () => { if (location.hash === '#organizacao') this.go('organizacao'); else this.nav('organizacao'); },
       orgBg: this.state.page === 'organizacao' ? '#1E2238' : '#fff',

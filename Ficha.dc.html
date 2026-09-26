@@ -14,7 +14,7 @@ body{margin:0;background:#FFF9EF;color:#1E2238;font-family:'Atkinson Hyperlegibl
 a{color:#2F6FE0}a:hover{color:#E6398F}
 *{box-sizing:border-box}
 @page{margin:14mm}
-@media print{body{background:#fff}#barra{display:none!important}#folha{padding:0!important;box-shadow:none!important;border-radius:0!important}img{max-height:260px!important}}
+@media print{body{background:#fff}#barra{display:none!important}#folha{padding:0!important;box-shadow:none!important;border-radius:0!important}img{max-height:260px!important}iframe{display:none!important}iframe+*,div:has(>iframe){height:auto!important;border:0!important}}
 </style>
 </helmet>
 <div style="min-height:100vh;padding:24px 16px">
@@ -36,6 +36,10 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
             <span style="background:#fff;color:#1E2238;border-radius:999px;padding:4px 10px;font-size:13px;font-weight:700">⏱ {{ f.tempo }}</span>
           </div>
         </div>
+      </div>
+      <div style="background:{{ f.t }};border-radius:18px;padding:14px 18px;display:flex;flex-direction:column;gap:4px">
+        <strong style="font:800 18px 'Baloo 2',sans-serif">▶ Vídeo da confecção</strong>
+        <a href="{{ f.video }}" target="_blank" style="font-size:13px;word-break:break-all;color:#1E2238">{{ f.video }}</a>
       </div>
       <sc-for list="{{ f.tabs }}" as="t">
         <div style="display:flex;flex-direction:column;gap:14px;break-inside:auto">
