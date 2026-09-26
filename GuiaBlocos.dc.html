@@ -161,7 +161,7 @@
 class Component extends DCLogic {
   state = { open: {} };
   renderVals() {
-    const all = !!this.props.expandAll;
+    const all = true;
     const items = (this.props.blocks || []).map(b => {
       const open = all || !!this.state.open[b.id];
       const o = { ...b, isH: b.k === 'h', isH3: b.k === 'h3', isStrong: b.k === 'strong', isText: b.k === 'text', isQuote: b.k === 'quote', isList: b.k === 'list', isPairs: b.k === 'pairs', isCards: b.k === 'cards', isCall: b.k === 'call', isImgs: b.k === 'imgs', isGallery: b.k === 'gallery', isBoard: b.k === 'board', isForm: b.k === 'form', isRefs: b.k === 'refs' };
