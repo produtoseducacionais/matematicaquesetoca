@@ -43,10 +43,10 @@
   </sc-if>
   <sc-if value="{{ b.isText }}">
     <div style="display:flex;flex-direction:column;gap:12px;max-width:100%">
-      <p style="margin:0;font-size:20px;line-height:1.5;text-wrap:pretty;text-align:justify;hyphens:auto">{{ b.lead }}</p>
+      <p style="margin:0;font-size:20px;line-height:1.5;text-wrap:pretty;text-align:{{ ta }};hyphens:auto">{{ b.lead }}</p>
       <sc-if value="{{ b.open }}">
         <sc-for list="{{ b.rest }}" as="r">
-          <p style="margin:0;font-size:17px;line-height:1.65;color:#3A3F5C;text-wrap:pretty;text-align:justify;hyphens:auto">{{ r }}</p>
+          <p style="margin:0;font-size:17px;line-height:1.65;color:#3A3F5C;text-wrap:pretty;text-align:{{ ta }};hyphens:auto">{{ r }}</p>
         </sc-for>
       </sc-if>
       <sc-if value="{{ b.more }}">
@@ -59,7 +59,7 @@
   <sc-if value="{{ b.isQuote }}">
     <figure style="margin:0;max-width:100%;background:#fff;border-radius:28px;padding:28px 32px;border:3px solid {{ accent }};position:relative">
       <div style="font-family:'Baloo 2',serif;font-size:80px;line-height:.6;color:{{ accent }};height:34px">“</div>
-      <blockquote style="margin:0;font-size:19px;line-height:1.55;font-style:italic;text-wrap:pretty;text-align:justify;hyphens:auto">{{ b.x }}</blockquote>
+      <blockquote style="margin:0;font-size:19px;line-height:1.55;font-style:italic;text-wrap:pretty;text-align:{{ ta }};hyphens:auto">{{ b.x }}</blockquote>
       <figcaption style="margin-top:12px;font-weight:700;font-size:15px;color:#5A5F7A">— {{ b.cite }}</figcaption>
     </figure>
   </sc-if>
@@ -116,7 +116,7 @@
       <span style="flex:none;width:48px;height:48px;border-radius:16px;background:{{ b.c }};color:#fff;display:grid;place-items:center;font:800 24px 'Baloo 2',sans-serif;transform:rotate(-6deg)">{{ b.icon }}</span>
       <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
         <div style="font:800 20px/1.2 'Baloo 2',sans-serif;letter-spacing:.02em">{{ b.title }}</div>
-        <sc-for list="{{ b.paras }}" as="p"><p style="margin:0;font-size:16.5px;line-height:1.55;text-wrap:pretty;text-align:justify;hyphens:auto">{{ p }}</p></sc-for>
+        <sc-for list="{{ b.paras }}" as="p"><p style="margin:0;font-size:16.5px;line-height:1.55;text-wrap:pretty;text-align:{{ ta }};hyphens:auto">{{ p }}</p></sc-for>
         <sc-if value="{{ b.hasItems }}">
           <div style="display:flex;flex-direction:column;gap:8px">
             <sc-for list="{{ b.items }}" as="it">
@@ -178,7 +178,7 @@
       <sc-for list="{{ b.items }}" as="st">
         <div style="display:flex;flex-wrap:wrap;gap:16px 20px;align-items:center;background:{{ st.t }};border-radius:24px;padding:16px 20px">
           <span style="flex:none;width:52px;height:52px;border-radius:50%;background:{{ st.c }};color:{{ st.ink }};display:grid;place-items:center;font:800 24px 'Baloo 2',sans-serif;padding-top:3px">{{ st.n }}</span>
-          <p style="margin:0;flex:1 1 280px;min-width:0;font-size:18px;line-height:1.5;text-align:justify;hyphens:auto">{{ st.x }}</p>
+          <p style="margin:0;flex:1 1 280px;min-width:0;font-size:18px;line-height:1.5;text-align:{{ ta }};hyphens:auto">{{ st.x }}</p>
           <sc-if value="{{ st.dl }}">
             <a href="{{ st.dl.href }}" download="" target="_blank" style="flex:none;display:inline-flex;align-items:center;gap:8px;background:{{ st.c }};color:{{ st.ink }};text-decoration:none;font:800 18px 'Baloo 2',sans-serif;padding:12px 22px 9px;border-radius:999px;box-shadow:0 4px 0 #1E2238" style-hover="transform:translateY(-2px)">{{ st.dl.label }}</a>
           </sc-if>
@@ -235,7 +235,7 @@
   <sc-if value="{{ b.isRefs }}">
     <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;max-width:100%">
       <sc-for list="{{ b.items }}" as="r">
-        <li style="background:#fff;border-radius:16px;padding:12px 18px;font-size:15px;line-height:1.5;text-align:justify;border-left:0;display:flex;gap:12px"><span style="flex:none;width:10px;height:10px;border-radius:50%;background:{{ accent }};margin-top:7px"></span><span>{{ r }}</span></li>
+        <li style="background:#fff;border-radius:16px;padding:12px 18px;font-size:15px;line-height:1.5;text-align:{{ ta }};border-left:0;display:flex;gap:12px"><span style="flex:none;width:10px;height:10px;border-radius:50%;background:{{ accent }};margin-top:7px"></span><span>{{ r }}</span></li>
       </sc-for>
     </ol>
   </sc-if>
@@ -247,6 +247,7 @@ class Component extends DCLogic {
   state = { open: {} };
   renderVals() {
     const all = true;
+    const ta = (typeof window !== 'undefined' && window.innerWidth < 600) ? 'left' : 'justify';
     const items = (this.props.blocks || []).map(b => {
       const open = all || !!this.state.open[b.id];
       const o = { ...b, isH: b.k === 'h', isH3: b.k === 'h3', isStrong: b.k === 'strong', isText: b.k === 'text', isQuote: b.k === 'quote', isList: b.k === 'list', isPairs: b.k === 'pairs', isCards: b.k === 'cards', isCall: b.k === 'call', isImgs: b.k === 'imgs', isGallery: b.k === 'gallery', isBoard: b.k === 'board', isForm: b.k === 'form', isRefs: b.k === 'refs', isVideo: b.k === 'video', isVideos: b.k === 'videos' };
@@ -267,7 +268,7 @@ class Component extends DCLogic {
       }
       return o;
     });
-    return { items, accent: this.props.accent || '#2F6FE0', tint: this.props.tint || '#E4EDFF' };
+    return { items, ta, accent: this.props.accent || '#2F6FE0', tint: this.props.tint || '#E4EDFF' };
   }
 }
 </script>
