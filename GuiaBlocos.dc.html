@@ -147,6 +147,47 @@
       </sc-for>
     </div>
   </sc-if>
+  <sc-if value="{{ b.isVideo }}">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <sc-if value="{{ b.ytV }}">
+        <div style="border-radius:28px;overflow:hidden;border:5px solid {{ accent }};background:#1E2238;aspect-ratio:9/16;width:min(100%,360px);box-shadow:0 8px 0 #1E2238">
+          <iframe src="{{ b.embed }}" title="Vídeo: {{ b.title }}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="true" style="width:100%;height:100%;border:0;display:block"></iframe>
+        </div>
+      </sc-if>
+      <sc-if value="{{ b.ytH }}">
+        <div style="border-radius:24px;overflow:hidden;border:4px solid {{ accent }};background:#1E2238;aspect-ratio:16/9;max-width:960px;width:100%">
+          <iframe src="{{ b.embed }}" title="Vídeo: {{ b.title }}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="true" style="width:100%;height:100%;border:0;display:block"></iframe>
+        </div>
+      </sc-if>
+      <sc-if value="{{ b.file }}">
+        <div style="border-radius:24px;overflow:hidden;border:4px solid {{ accent }};background:#1E2238;aspect-ratio:16/9;max-width:960px;width:100%">
+          <iframe src="{{ b.embed }}" title="Vídeo: {{ b.title }}" allow="autoplay; fullscreen" allowfullscreen="true" style="width:100%;height:100%;border:0;display:block"></iframe>
+        </div>
+      </sc-if>
+      <sc-if value="{{ b.folder }}">
+        <div style="border-radius:24px;overflow:hidden;border:4px solid {{ accent }};background:#fff;height:440px">
+          <iframe src="{{ b.embed }}" title="Vídeos: {{ b.title }}" loading="lazy" style="width:100%;height:100%;border:0;display:block"></iframe>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ b.isVideos }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px">
+      <sc-for list="{{ b.items }}" as="v">
+        <a href="{{ v.url }}" target="_blank" style="display:flex;flex-direction:column;text-decoration:none;color:#1E2238;background:{{ v.t }};border-radius:26px;overflow:hidden" style-hover="transform:translateY(-4px)">
+          <div style="position:relative;aspect-ratio:16/10;background:#1E2238">
+            <img src="{{ v.cover }}" alt="{{ v.title }}" style="width:100%;height:100%;object-fit:cover;display:block;opacity:.85">
+            <span style="position:absolute;inset:0;display:grid;place-items:center"><span style="width:68px;height:68px;border-radius:50%;background:{{ v.c }};color:{{ v.ink }};display:grid;place-items:center;font-size:26px;border:4px solid #fff;padding-left:5px">▶</span></span>
+            <span style="position:absolute;left:12px;top:12px;background:#fff;border-radius:999px;padding:4px 12px;font:800 15px 'Baloo 2',sans-serif">Ficha {{ v.n }}</span>
+          </div>
+          <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px">
+            <span style="font:800 19px/1.15 'Baloo 2',sans-serif">{{ v.title }}</span>
+            <span style="font-size:14px;font-weight:700;color:#3A3F5C">Assistir no Google Drive →</span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </sc-if>
   <sc-if value="{{ b.isRefs }}">
     <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;max-width:100%">
       <sc-for list="{{ b.items }}" as="r">
@@ -164,8 +205,9 @@ class Component extends DCLogic {
     const all = true;
     const items = (this.props.blocks || []).map(b => {
       const open = all || !!this.state.open[b.id];
-      const o = { ...b, isH: b.k === 'h', isH3: b.k === 'h3', isStrong: b.k === 'strong', isText: b.k === 'text', isQuote: b.k === 'quote', isList: b.k === 'list', isPairs: b.k === 'pairs', isCards: b.k === 'cards', isCall: b.k === 'call', isImgs: b.k === 'imgs', isGallery: b.k === 'gallery', isBoard: b.k === 'board', isForm: b.k === 'form', isRefs: b.k === 'refs' };
+      const o = { ...b, isH: b.k === 'h', isH3: b.k === 'h3', isStrong: b.k === 'strong', isText: b.k === 'text', isQuote: b.k === 'quote', isList: b.k === 'list', isPairs: b.k === 'pairs', isCards: b.k === 'cards', isCall: b.k === 'call', isImgs: b.k === 'imgs', isGallery: b.k === 'gallery', isBoard: b.k === 'board', isForm: b.k === 'form', isRefs: b.k === 'refs', isVideo: b.k === 'video', isVideos: b.k === 'videos' };
       if (b.k === 'text') { o.open = open; o.more = !!(b.rest && b.rest.length) && !all; o.btn = open ? 'Ler menos' : 'Ler mais'; o.sign = open ? '−' : '+'; o.toggle = () => this.setState(s => ({ open: { ...s.open, [b.id]: !s.open[b.id] } })); }
+      if (b.k === 'video') { o.ytV = !!(b.yt && b.vertical); o.ytH = !!(b.yt && !b.vertical); o.file = !!b.file && !b.yt; o.folder = !b.file && !b.yt; }
       if (b.k === 'list') o.items = b.items.map(it => ({ ...it, mark: b.ordered ? it.n : '●' }));
       if (b.k === 'call') o.hasItems = b.items && b.items.length > 0;
       if (b.k === 'board') {
