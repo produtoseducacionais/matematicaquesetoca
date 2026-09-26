@@ -19,7 +19,7 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
 </helmet>
 <div style="min-height:100vh">
   <header style="position:sticky;top:0;z-index:20;background:rgba(255,249,239,.94);backdrop-filter:blur(8px);border-bottom:3px solid #1E2238">
-    <div style="max-width:1240px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:18px">
+    <div style="max-width:1240px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px">
       <a href="#topo" onClick="{{ goTop }}" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1E2238;flex:none">
         <span style="display:grid;grid-template-columns:repeat(2,12px);gap:3px">
           <span style="width:12px;height:12px;border-radius:50%;background:#2F6FE0"></span><span style="width:12px;height:12px;border-radius:50%;background:#FFC531"></span>
@@ -27,7 +27,7 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
         </span>
         <span style="font:800 20px/1 'Baloo 2',sans-serif;padding-top:3px">Matemática que se toca</span>
       </a>
-      <nav style="display:flex;flex-wrap:wrap;gap:4px 6px;flex:1;min-width:0;padding:2px 0">
+      <nav style="display:flex;flex-wrap:{{ navWrap }};overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:4px 6px;flex:1 1 520px;min-width:0;padding:2px 0">
         <button onClick="{{ goOrg }}" style="flex:none;display:flex;align-items:center;gap:7px;border:2px solid #1E2238;background:{{ orgBg }};color:{{ orgFg }};padding:7px 12px;border-radius:999px;font:700 14px 'Atkinson Hyperlegible',sans-serif;cursor:pointer">☰ Como o guia está organizado</button>
         <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
           <button onClick="{{ n.go }}" style="flex:none;display:flex;align-items:center;gap:7px;border:2px solid {{ n.bd }};background:{{ n.bg }};padding:7px 12px;border-radius:999px;font:700 14px 'Atkinson Hyperlegible',sans-serif;color:#1E2238;cursor:pointer" style-hover="background:#fff">
@@ -156,7 +156,7 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
                 </div>
               </div>
               <div style="padding:24px 28px 8px;display:flex;flex-direction:column;gap:12px">
-                <h4 style="margin:0;display:flex;align-items:center;gap:10px;font:800 24px/1.1 'Baloo 2',sans-serif;color:{{ cur.c }}"><span style="width:34px;height:34px;border-radius:50%;background:{{ cur.c }};color:{{ cur.ink }};display:grid;place-items:center;font-size:14px;padding-left:3px">▶</span>Vídeo da confecção</h4>
+                <h4 style="margin:0;display:flex;align-items:center;gap:10px;font:800 24px/1.1 'Baloo 2',sans-serif;color:{{ cur.c }}"><span style="width:34px;height:34px;border-radius:50%;background:{{ cur.c }};color:{{ cur.ink }};display:grid;place-items:center;font-size:14px;padding-left:3px">▶</span>Exemplo de uso</h4>
                 <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:center">
                   <div style="flex:0 1 {{ vidBasis }};min-width:260px">
                     <dc-import name="GuiaBlocos" blocks="{{ videoBlocks }}" accent="{{ cur.c }}" tint="{{ cur.t }}" hint-size="100%,500px"></dc-import>
@@ -230,8 +230,11 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;expandAll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Leitura&quot;}}">
 class Component extends DCLogic {
-  state = { d: null, f: 0, tab: 0, page: (location.hash || '').slice(1) };
+  state = { d: null, f: 0, tab: 0, page: (location.hash || '').slice(1), mob: window.innerWidth < 760 };
+  componentWillUnmount() { window.removeEventListener('resize', this.onRz); }
   componentDidMount() {
+    this.onRz = () => { const m = window.innerWidth < 760; if (m !== this.state.mob) this.setState({ mob: m }); };
+    window.addEventListener('resize', this.onRz);
     fetch('guia.json').then(r => r.json()).then(d => this.setState({ d }));
     this.onHash = () => {
       const p = (location.hash || '').slice(1);
@@ -250,6 +253,7 @@ class Component extends DCLogic {
   }
   renderVals() {
     const d = this.state.d;
+    const navWrap = this.state.mob ? 'nowrap' : 'wrap';
     const DESC = {
       apresentacao: 'Para quem é este guia e como usá-lo',
       oficina: 'A oficina formativa que originou este guia — e como replicá-la',
@@ -284,7 +288,7 @@ class Component extends DCLogic {
     });
     const tab = cur.tabs[this.state.tab] || cur.tabs[0];
     const org = d.meta.organizacao || { paras: [] };
-    return {
+    return { navWrap, 
       isHome: idx < 0, meta: d.meta, links: d.meta.links.map(l => l.startsWith('http') ? l : 'http://' + l), beads, nav, secs: view, tiles, tabs, cur,
       videoBlocks: cur.videoBlocks || [],
       oque: cur.oque || [],
