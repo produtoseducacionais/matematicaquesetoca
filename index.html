@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#FFF9EF;color:#1E2238;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2F6FE0}a:hover{color:#E6398F}
+*{box-sizing:border-box}
+</style>
+</helmet>
+<div style="min-height:100vh">
+  <header style="position:sticky;top:0;z-index:20;background:rgba(255,249,239,.94);backdrop-filter:blur(8px);border-bottom:3px solid #1E2238">
+    <div style="max-width:1240px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:18px">
+      <a href="#topo" onClick="{{ goTop }}" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1E2238;flex:none">
+        <span style="display:grid;grid-template-columns:repeat(2,12px);gap:3px">
+          <span style="width:12px;height:12px;border-radius:50%;background:#2F6FE0"></span><span style="width:12px;height:12px;border-radius:50%;background:#FFC531"></span>
+          <span style="width:12px;height:12px;border-radius:50%;background:#EE3B4A"></span><span style="width:12px;height:12px;border-radius:50%;background:#1FAA64"></span>
+        </span>
+        <span style="font:800 20px/1 'Baloo 2',sans-serif;padding-top:3px">Matemática que se toca</span>
+      </a>
+      <nav style="display:flex;flex-wrap:wrap;gap:4px 6px;flex:1;min-width:0;padding:2px 0">
+        <button onClick="{{ goOrg }}" style="flex:none;display:flex;align-items:center;gap:7px;border:2px solid #1E2238;background:{{ orgBg }};color:{{ orgFg }};padding:7px 12px;border-radius:999px;font:700 14px 'Atkinson Hyperlegible',sans-serif;cursor:pointer">☰ Como o guia está organizado</button>
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
+          <button onClick="{{ n.go }}" style="flex:none;display:flex;align-items:center;gap:7px;border:2px solid {{ n.bd }};background:{{ n.bg }};padding:7px 12px;border-radius:999px;font:700 14px 'Atkinson Hyperlegible',sans-serif;color:#1E2238;cursor:pointer" style-hover="background:#fff">
+            <span style="width:10px;height:10px;border-radius:50%;background:{{ n.c }}"></span>{{ n.label }}
+          </button>
+        </sc-for>
+      </nav>
+    </div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}"><div>
+  <section id="topo" style="position:relative;overflow:hidden">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 20px 64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:26px">
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="background:#1E2238;color:#fff;border-radius:999px;padding:6px 14px;font-weight:700;font-size:13px;letter-spacing:.05em">PRODUTO EDUCACIONAL · PPGCITED</span>
+        </div>
+        <h1 style="margin:0;display:flex;flex-wrap:wrap;gap:10px 14px;font:800 clamp(52px,8vw,104px)/.95 'Baloo 2',sans-serif;letter-spacing:-.01em">
+          <span style="background:#2F6FE0;color:#fff;padding:12px 22px 2px;border-radius:26px;transform:rotate(-2deg)">Matemática</span>
+          <span style="background:#FFC531;color:#1E2238;padding:12px 22px 2px;border-radius:26px;transform:rotate(1.5deg)">que se</span>
+          <span style="background:#E6398F;color:#fff;padding:12px 22px 2px;border-radius:26px;transform:rotate(-1deg)">toca</span>
+        </h1>
+        <p style="margin:0;font-size:21px;line-height:1.45;max-width:560px;text-wrap:pretty">{{ meta.sub }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <sc-for list="{{ meta.autoras }}" as="a">
+            <span style="display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #1E2238;border-radius:999px;padding:6px 14px 6px 6px;font-weight:700;font-size:15px"><span style="width:26px;height:26px;border-radius:50%;background:#1FAA64"></span>{{ a }}</span>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <button onClick="{{ goFichas }}" style="border:0;background:#EE3B4A;color:#fff;font:800 19px 'Baloo 2',sans-serif;padding:14px 26px 11px;border-radius:999px;cursor:pointer;box-shadow:0 5px 0 #1E2238" style-active="transform:translateY(3px);box-shadow:0 2px 0 #1E2238">Com pressa? Vá direto às fichas →</button>
+          <button onClick="{{ goApresentacao }}" style="border:3px solid #1E2238;background:#fff;color:#1E2238;font:800 19px 'Baloo 2',sans-serif;padding:11px 24px 8px;border-radius:999px;cursor:pointer">Começar pelo início</button>
+        </div>
+      </div>
+      <div style="position:relative">
+        <div style="position:absolute;inset:-18px -10px auto auto;width:120px;height:120px;border-radius:50%;background:#1FAA64"></div>
+        <div style="position:absolute;left:-20px;bottom:-24px;width:90px;height:90px;border-radius:24px;background:#FF7A1A;transform:rotate(14deg)"></div>
+        <img src="assets/image1.jpg" alt="Livro numérico sensorial com as páginas de 1 a 10" style="position:relative;width:100%;border-radius:32px;border:10px solid #fff;box-shadow:0 10px 0 #1E2238;transform:rotate(2deg)">
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:0 20px 40px">
+      <sc-for list="{{ beads }}" as="bd">
+        <span style="width:44px;height:44px;border-radius:50%;background:{{ bd.c }};color:{{ bd.ink }};display:grid;place-items:center;font:800 20px 'Baloo 2',sans-serif;padding-top:3px">{{ bd.n }}</span>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="organizacao" style="background:#1E2238;color:#fff;scroll-margin-top:110px">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 20px;display:flex;flex-direction:column;gap:28px">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:end">
+        <h2 style="margin:0;font:800 clamp(32px,4vw,48px)/1 'Baloo 2',sans-serif">Como este guia está organizado</h2>
+        <p style="margin:0;max-width:520px;font-size:17px;line-height:1.5;color:#E6E8F2">{{ orgLead }}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:14px">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="10">
+          <button onClick="{{ n.go }}" style="text-align:left;border:0;cursor:pointer;background:{{ n.c }};color:{{ n.ink }};border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:10px;min-height:150px;font-family:'Atkinson Hyperlegible',sans-serif" style-hover="transform:translateY(-4px) rotate(-1deg)">
+            <span style="font:800 34px/1 'Baloo 2',sans-serif">{{ n.num }}</span>
+            <span style="font:800 21px/1.1 'Baloo 2',sans-serif">{{ n.label }}</span>
+            <span style="font-size:14.5px;line-height:1.4">{{ n.desc }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <p style="margin:0;font-size:16px;color:#FFC531;font-weight:700">{{ orgTip }}</p>
+    </div>
+  </section>
+
+  </div></sc-if>
+  <sc-for list="{{ secs }}" as="s" hint-placeholder-count="0">
+    <section id="{{ s.id }}" style="scroll-margin-top:110px">
+      <div style="background:{{ s.c }};color:{{ s.ink }}">
+        <div style="max-width:1240px;margin:0 auto;padding:24px 20px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+          <button onClick="{{ s.goHome }}" style="flex-basis:100%;flex-grow:0;align-self:flex-start;width:max-content;max-width:max-content;display:flex;align-items:center;gap:8px;border:2px solid {{ s.ink }};background:transparent;color:{{ s.ink }};font:700 15px 'Atkinson Hyperlegible',sans-serif;padding:7px 16px;border-radius:999px;cursor:pointer">← Voltar ao início</button>
+          <span style="width:92px;height:92px;flex:none;border-radius:30px;background:#fff;color:{{ s.c }};display:grid;place-items:center;font:800 44px/1 'Baloo 2',sans-serif;padding-top:6px;transform:rotate(-5deg)">{{ s.num }}</span>
+          <div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1">
+            <h2 style="margin:0;font:800 clamp(34px,5vw,60px)/1 'Baloo 2',sans-serif;text-wrap:balance">{{ s.title }}</h2>
+            <p style="margin:0;font-size:18px;line-height:1.4;font-weight:700">{{ s.desc }}</p>
+          </div>
+        </div>
+      </div>
+      <div style="max-width:1240px;margin:0 auto;padding:40px 20px 64px;display:flex;flex-direction:column;gap:32px">
+        <dc-import name="GuiaBlocos" blocks="{{ s.blocks }}" accent="{{ s.c }}" tint="{{ s.t }}" expand-all="{{ expandAll }}" hint-size="100%,300px"></dc-import>
+
+        <sc-if value="{{ s.isFichas }}">
+          <div style="display:flex;flex-direction:column;gap:28px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <h3 style="margin:0;font:800 clamp(26px,3vw,36px)/1.1 'Baloo 2',sans-serif">{{ fichasCap }}</h3>
+              <p style="margin:0;font-size:15px;color:#5A5F7A">Toque em um recurso para abrir a ficha completa.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:16px">
+              <sc-for list="{{ tiles }}" as="f" hint-placeholder-count="9">
+                <button onClick="{{ f.pick }}" style="text-align:left;cursor:pointer;padding:0;border:4px solid {{ f.border }};background:#fff;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;font-family:'Atkinson Hyperlegible',sans-serif;color:#1E2238;transform:{{ f.tf }};box-shadow:{{ f.sh }}" style-hover="transform:translateY(-4px)">
+                  <div style="position:relative;aspect-ratio:4/3;background:{{ f.t }};width:100%">
+                    <img src="{{ f.cover }}" alt="{{ f.title }}" style="width:100%;height:100%;object-fit:cover;display:block">
+                    <span style="position:absolute;left:12px;top:12px;width:52px;height:52px;border-radius:50%;background:{{ f.c }};color:{{ f.ink }};display:grid;place-items:center;font:800 24px 'Baloo 2',sans-serif;padding-top:3px;border:3px solid #fff">{{ f.n }}</span>
+                  </div>
+                  <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;background:{{ f.t }};flex:1;width:100%">
+                    <span style="font:800 20px/1.15 'Baloo 2',sans-serif">{{ f.title }}</span>
+                    <span style="font-size:14px;line-height:1.4">{{ f.conteudo }}</span>
+                    <span style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto">
+                      <span style="background:#fff;border-radius:999px;padding:4px 10px;font-size:13px;font-weight:700">{{ f.ano }} ano</span>
+                      <span style="background:#fff;border-radius:999px;padding:4px 10px;font-size:13px;font-weight:700">⏱ {{ f.tempo }}</span>
+                    </span>
+                  </div>
+                </button>
+              </sc-for>
+            </div>
+            <div style="margin-top:-12px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
+              <p style="margin:0;font-size:13px;color:#6A6F88">{{ fichasSrc }}</p>
+              <a href="Ficha.dc.html?n=todas&amp;imprimir=1" target="_blank" style="display:flex;align-items:center;gap:6px;background:#1E2238;color:#fff;text-decoration:none;font:800 16px 'Baloo 2',sans-serif;padding:11px 20px 8px;border-radius:999px">⬇ Baixar todas as fichas em PDF</a>
+            </div>
+
+            <div id="ficha-aberta" style="scroll-margin-top:70px;background:#fff;border-radius:36px;border:4px solid {{ cur.c }};overflow:hidden">
+              <div style="background:{{ cur.c }};color:{{ cur.ink }};padding:24px 28px;display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+                <span style="width:80px;height:80px;border-radius:26px;background:#fff;color:{{ cur.c }};display:grid;place-items:center;font:800 40px 'Baloo 2',sans-serif;padding-top:5px;transform:rotate(-4deg);flex:none">{{ cur.n }}</span>
+                <div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:8px">
+                  <span style="font-weight:700;font-size:14px;letter-spacing:.08em">FICHA TÉCNICA {{ cur.n }} DE 09</span>
+                  <h3 style="margin:0;font:800 clamp(28px,4vw,44px)/1.05 'Baloo 2',sans-serif">{{ cur.title }}</h3>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px">
+                    <span style="background:#fff;color:#1E2238;border-radius:999px;padding:5px 12px;font-size:14px;font-weight:700">{{ cur.conteudo }}</span>
+                    <span style="background:#fff;color:#1E2238;border-radius:999px;padding:5px 12px;font-size:14px;font-weight:700">{{ cur.ano }} ano</span>
+                    <span style="background:#fff;color:#1E2238;border-radius:999px;padding:5px 12px;font-size:14px;font-weight:700">⏱ {{ cur.tempo }}</span>
+                  </div>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                  <a href="{{ pdfHref }}" target="_blank" style="display:flex;align-items:center;gap:6px;background:#fff;color:#1E2238;text-decoration:none;font:800 16px 'Baloo 2',sans-serif;padding:11px 18px 8px;border-radius:999px;box-shadow:0 4px 0 #1E2238">⬇ Baixar PDF</a>
+                  <button onClick="{{ prevF }}" aria-label="Ficha anterior" style="width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:transparent;color:{{ cur.ink }};font:800 22px sans-serif;cursor:pointer">←</button>
+                  <button onClick="{{ nextF }}" aria-label="Próxima ficha" style="width:48px;height:48px;border-radius:50%;border:0;background:#fff;color:#1E2238;font:800 22px sans-serif;cursor:pointer">→</button>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;overflow-x:auto;padding:16px 20px;background:{{ cur.t }}">
+                <sc-for list="{{ tabs }}" as="tb">
+                  <button onClick="{{ tb.pick }}" style="flex:none;border:3px solid {{ tb.bd }};background:{{ tb.bg }};color:{{ tb.fg }};font:800 16px 'Baloo 2',sans-serif;padding:8px 18px 5px;border-radius:999px;cursor:pointer">{{ tb.name }}</button>
+                </sc-for>
+              </div>
+              <div style="padding:28px;display:flex;flex-direction:column;gap:24px">
+                <h4 style="margin:0;font:800 26px/1.1 'Baloo 2',sans-serif;color:{{ cur.c }}">{{ tabTitle }}</h4>
+                <dc-import name="GuiaBlocos" blocks="{{ tabBlocks }}" accent="{{ cur.c }}" tint="{{ cur.t }}" expand-all="{{ expandAll }}" hint-size="100%,300px"></dc-import>
+                <sc-if value="{{ hasResumo }}">
+                  <dc-import name="GuiaBlocos" blocks="{{ resumoBlocks }}" accent="{{ cur.c }}" tint="{{ cur.t }}" hint-size="100%,160px"></dc-import>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      <div style="max-width:1240px;margin:0 auto;padding:0 20px 64px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <sc-if value="{{ s.hasPrev }}">
+            <button onClick="{{ s.goPrev }}" style="border:3px solid #1E2238;background:#fff;color:#1E2238;font:800 18px 'Baloo 2',sans-serif;padding:10px 22px 7px;border-radius:999px;cursor:pointer">← {{ s.prevLabel }}</button>
+          </sc-if>
+          <button onClick="{{ s.goHome }}" style="border:3px solid #1E2238;background:transparent;color:#1E2238;font:800 18px 'Baloo 2',sans-serif;padding:10px 22px 7px;border-radius:999px;cursor:pointer">Início</button>
+        </div>
+        <sc-if value="{{ s.hasNext }}">
+          <button onClick="{{ s.goNext }}" style="border:0;background:{{ s.nextC }};color:{{ s.nextInk }};font:800 19px 'Baloo 2',sans-serif;padding:14px 26px 11px;border-radius:999px;cursor:pointer;box-shadow:0 5px 0 #1E2238" style-active="transform:translateY(3px);box-shadow:0 2px 0 #1E2238">Próxima: {{ s.nextLabel }} →</button>
+        </sc-if>
+      </div>
+    </section>
+  </sc-for>
+
+  <footer style="background:#1E2238;color:#fff">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:36px">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <span style="font:800 30px/1 'Baloo 2',sans-serif">Matemática que se toca</span>
+        <sc-for list="{{ meta.inst }}" as="i"><span style="font-size:14px;font-weight:700;letter-spacing:.04em;color:#FFC531">{{ i }}</span></sc-for>
+        <span style="font-size:14px;line-height:1.5;color:#E6E8F2">{{ meta.endereco }}</span>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <sc-for list="{{ links }}" as="l"><a href="{{ l }}" target="_blank" style="color:#7FD8FF;font-size:14px">{{ l }}</a></sc-for>
+        </div>
+        <span style="font-weight:700">{{ meta.local }}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <sc-for list="{{ meta.credits }}" as="c">
+          <div><div style="font:800 17px 'Baloo 2',sans-serif;color:#FF8FC4">{{ c.l }}</div><sc-for list="{{ c.v }}" as="v"><div style="font-size:15px;line-height:1.45">{{ v }}</div></sc-for></div>
+        </sc-for>
+        <span style="font-size:13px;color:#C9CCD8;line-height:1.45">{{ meta.fotoNota }}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font:800 17px 'Baloo 2',sans-serif;color:#6FE3A5">Ficha catalográfica</div>
+        <div style="background:#2A2F4C;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ meta.catalog }}" as="c"><p style="margin:0;font-size:13px;line-height:1.5;color:#E6E8F2">{{ c }}</p></sc-for>
+        </div>
+        <div style="font:800 17px 'Baloo 2',sans-serif;color:#7FD8FF">Licença</div>
+        <sc-for list="{{ meta.licenca }}" as="l"><p style="margin:0;font-size:13.5px;line-height:1.5;color:#E6E8F2">{{ l }}</p></sc-for>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;expandAll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Leitura&quot;}}">
+class Component extends DCLogic {
+  state = { d: null, f: 0, tab: 0, page: (location.hash || '').slice(1) };
+  componentDidMount() {
+    fetch('guia.json').then(r => r.json()).then(d => this.setState({ d }));
+    this.onHash = () => {
+      const p = (location.hash || '').slice(1);
+      this.setState({ page: p });
+      window.scrollTo(0, 0);
+      if (p === 'organizacao') setTimeout(() => this.go('organizacao'), 60);
+    };
+    if (this.state.page === 'organizacao') setTimeout(() => this.go('organizacao'), 600);
+    window.addEventListener('hashchange', this.onHash);
+  }
+  componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); }
+  nav(id) { location.hash = id || 'inicio'; }
+  go(id) {
+    const el = document.getElementById(id);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - (document.querySelector('header')?.offsetHeight || 64) - 8, behavior: 'smooth' });
+  }
+  renderVals() {
+    const d = this.state.d;
+    const DESC = {
+      apresentacao: 'Para quem é este guia e como usá-lo',
+      oficina: 'A oficina formativa que originou este guia — e como replicá-la',
+      teoria: 'Vigotski, Tardif e o lugar dos recursos na aprendizagem',
+      inclusiva: 'Diferentes formas de aprender e os tipos de recurso',
+      fichas: 'Como confeccionar e usar cada recurso manipulável',
+      repertorio: 'Materiais estruturados, literatura, jogos, recursos digitais e acessibilidade',
+      planejar: 'Planejar, aplicar e avaliar o uso dos recursos',
+      reflexoes: 'O que a experiência ensinou',
+      referencias: 'Obras citadas neste guia',
+      autoras: 'Quem elaborou este guia',
+      apendices: 'Moldes, cartelas e fichas prontos para imprimir'
+    };
+    const PAL = [['#2F6FE0', '#fff'], ['#FFC531', '#1E2238'], ['#EE3B4A', '#fff'], ['#1FAA64', '#fff'], ['#E6398F', '#fff'], ['#FF7A1A', '#1E2238'], ['#0FA3B1', '#fff'], ['#7C4DFF', '#fff'], ['#2F6FE0', '#fff'], ['#EE3B4A', '#fff']];
+    const beads = Array.from({ length: 10 }, (_, i) => ({ n: i + 1, c: PAL[i][0], ink: PAL[i][1] }));
+    if (!d) return { isHome: true, nav: [], secs: [], tiles: [], tabs: [], meta: {}, beads, links: [], cur: {}, tabBlocks: [], resumoBlocks: [] };
+    const secs = d.secs.map(s => ({ ...s, desc: DESC[s.id] || '', isFichas: s.id === 'fichas' }));
+    const page = this.state.page;
+    const nav = secs.map(s => ({ label: s.label, c: s.c, ink: s.ink, num: s.num, desc: s.desc, go: () => this.nav(s.id), bg: page === s.id ? s.t : 'transparent', bd: page === s.id ? s.c : 'transparent' }));
+    const idx = secs.findIndex(s => s.id === page);
+    const view = idx < 0 ? [] : [{ ...secs[idx],
+      hasPrev: idx > 0, prevLabel: idx > 0 ? secs[idx - 1].label : '', goPrev: () => idx > 0 && this.nav(secs[idx - 1].id),
+      hasNext: idx < secs.length - 1, nextLabel: idx < secs.length - 1 ? secs[idx + 1].label : '', nextC: idx < secs.length - 1 ? secs[idx + 1].c : '', nextInk: idx < secs.length - 1 ? secs[idx + 1].ink : '', goNext: () => idx < secs.length - 1 && this.nav(secs[idx + 1].id),
+      goHome: () => this.nav('') }];
+    const fi = this.state.f, cur = d.fichas[fi];
+    const pickF = i => { this.setState({ f: i, tab: 0 }); setTimeout(() => this.go('ficha-aberta'), 30); };
+    const tiles = d.fichas.map((f, i) => ({ ...f, pick: () => pickF(i), border: i === fi ? '#1E2238' : 'transparent', tf: i === fi ? 'translateY(-4px)' : 'none', sh: i === fi ? '0 6px 0 #1E2238' : 'none' }));
+    const tabs = cur.tabs.map((t, i) => {
+      const on = i === this.state.tab;
+      return { name: t.name, pick: () => this.setState({ tab: i }), bg: on ? cur.c : '#fff', fg: on ? cur.ink : '#1E2238', bd: on ? cur.c : '#fff' };
+    });
+    const tab = cur.tabs[this.state.tab] || cur.tabs[0];
+    const org = d.meta.organizacao || { paras: [] };
+    return {
+      isHome: idx < 0, meta: d.meta, links: d.meta.links.map(l => l.startsWith('http') ? l : 'http://' + l), beads, nav, secs: view, tiles, tabs, cur,
+      pdfHref: 'Ficha.dc.html?n=' + parseInt(cur.n) + '&imprimir=1',
+      tabBlocks: tab.blocks, tabTitle: tab.full,
+      hasResumo: !!cur.resumo, resumoBlocks: cur.resumo ? [cur.resumo] : [],
+      fichasCap: d.fichasIntro.cap, fichasSrc: d.fichasIntro.src,
+      orgLead: 'Onze paradas, cada uma com sua cor. Cada ficha é independente e pode ser usada isoladamente.',
+      orgTip: org.paras[1] || '',
+      expandAll: !!this.props.expandAll,
+      goTop: e => { e.preventDefault(); this.nav(''); },
+      goOrg: () => { if (location.hash === '#organizacao') this.go('organizacao'); else this.nav('organizacao'); },
+      orgBg: this.state.page === 'organizacao' ? '#1E2238' : '#fff',
+      orgFg: this.state.page === 'organizacao' ? '#fff' : '#1E2238',
+      goFichas: () => this.nav('fichas'), goApresentacao: () => this.nav('apresentacao'),
+      prevF: () => this.setState({ f: (fi + 8) % 9, tab: 0 }), nextF: () => this.setState({ f: (fi + 1) % 9, tab: 0 })
+    };
+  }
+}
+</script>
+</body>
+</html>
