@@ -260,7 +260,9 @@ class Component extends DCLogic {
       window.scrollTo(0, 0);
       if (p === 'organizacao') setTimeout(() => this.go('organizacao'), 60);
     };
-    if (this.state.page === 'organizacao') setTimeout(() => this.go('organizacao'), 600);
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (this.state.page === 'organizacao') { history.replaceState(null, '', location.pathname); this.setState({ page: '' }); }
+    window.scrollTo(0, 0);
     window.addEventListener('hashchange', this.onHash);
   }
   componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); }
