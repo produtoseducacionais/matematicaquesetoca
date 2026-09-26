@@ -27,7 +27,8 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
         </span>
         <span style="font:800 20px/1 'Baloo 2',sans-serif;padding-top:3px">Matemática que se toca</span>
       </a>
-      <nav style="display:flex;flex-wrap:{{ navWrap }};overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:4px 6px;flex:1 1 520px;min-width:0;padding:2px 0">
+      <sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;flex-wrap:wrap;gap:4px 6px;flex:1 1 520px;min-width:0;padding:2px 0">
         <button onClick="{{ goOrg }}" style="flex:none;display:flex;align-items:center;gap:7px;border:2px solid #1E2238;background:{{ orgBg }};color:{{ orgFg }};padding:7px 12px;border-radius:999px;font:700 14px 'Atkinson Hyperlegible',sans-serif;cursor:pointer">☰ Como o guia está organizado</button>
         <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
           <button onClick="{{ n.go }}" style="flex:none;display:flex;align-items:center;gap:7px;border:2px solid {{ n.bd }};background:{{ n.bg }};padding:7px 12px;border-radius:999px;font:700 14px 'Atkinson Hyperlegible',sans-serif;color:#1E2238;cursor:pointer" style-hover="background:#fff">
@@ -35,6 +36,23 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
           </button>
         </sc-for>
       </nav>
+      </sc-if>
+      <sc-if value="{{ isMob }}">
+      <div style="position:relative;margin-left:auto">
+        <button onClick="{{ toggleMenu }}" style="display:flex;align-items:center;gap:8px;border:3px solid #1E2238;background:{{ menuBtnBg }};color:{{ menuBtnFg }};padding:8px 18px 6px;border-radius:999px;font:800 17px 'Baloo 2',sans-serif;cursor:pointer">☰ Menu <span style="font-size:12px">{{ menuArrow }}</span></button>
+        <sc-if value="{{ menuOpen }}">
+          <div onClick="{{ closeMenu }}" style="position:fixed;inset:0;z-index:1"></div>
+          <div style="position:absolute;right:0;top:calc(100% + 10px);z-index:2;width:min(320px,calc(100vw - 32px));max-height:calc(100vh - 110px);overflow-y:auto;background:#fff;border:3px solid #1E2238;border-radius:22px;box-shadow:0 6px 0 #1E2238;padding:8px;display:flex;flex-direction:column;gap:2px">
+            <button onClick="{{ menuOrg }}" style="display:flex;align-items:center;gap:10px;border:0;background:#1E2238;color:#fff;padding:12px 14px;border-radius:14px;font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;text-align:left;margin-bottom:4px">☰ Como o guia está organizado</button>
+            <sc-for list="{{ menuItems }}" as="n" hint-placeholder-count="11">
+              <button onClick="{{ n.pick }}" style="display:flex;align-items:center;gap:10px;border:0;background:{{ n.bg }};color:#1E2238;padding:10px 14px;border-radius:14px;font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;text-align:left" style-hover="background:#FFF4CC">
+                <span style="width:12px;height:12px;flex:none;border-radius:50%;background:{{ n.c }}"></span>{{ n.label }}
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      </sc-if>
     </div>
   </header>
 
@@ -252,6 +270,15 @@ class Component extends DCLogic {
     if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - (document.querySelector('header')?.offsetHeight || 64) - 8, behavior: 'smooth' });
   }
   renderVals() {
+    const v = this._rv();
+    const close = () => this.setState({ menu: false });
+    return { ...v, isMob: !!this.state.mob, isDesk: !this.state.mob, menuOpen: !!this.state.menu, menuArrow: this.state.menu ? '▲' : '▼',
+      menuBtnBg: this.state.menu ? '#1E2238' : '#fff', menuBtnFg: this.state.menu ? '#fff' : '#1E2238',
+      toggleMenu: () => this.setState(st => ({ menu: !st.menu })), closeMenu: close,
+      menuOrg: () => { close(); v.goOrg && v.goOrg(); },
+      menuItems: (v.nav || []).map(n => ({ ...n, bg: n.bg === '#fff' || !n.bg ? 'transparent' : n.bg, pick: () => { close(); n.go(); } })) };
+  }
+  _rv() {
     const d = this.state.d;
     const navWrap = this.state.mob ? 'nowrap' : 'wrap';
     const DESC = {
