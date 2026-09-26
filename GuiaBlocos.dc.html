@@ -90,7 +90,7 @@
   <sc-if value="{{ b.isCards }}">
     <div style="display:flex;flex-direction:column;gap:12px">
       <sc-if value="{{ b.cap }}"><p style="margin:0;font:700 14px 'Atkinson Hyperlegible',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#5A5F7A">{{ b.cap }}</p></sc-if>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:14px">
+      <div style="display:grid;grid-template-columns:{{ b.cols }};gap:14px">
         <sc-for list="{{ b.cards }}" as="cd">
           <div style="background:{{ cd.t }};border-radius:24px;overflow:hidden;display:flex;flex-direction:column">
             <sc-if value="{{ cd.img }}">
@@ -245,6 +245,7 @@ class Component extends DCLogic {
       const open = all || !!this.state.open[b.id];
       const o = { ...b, isH: b.k === 'h', isH3: b.k === 'h3', isStrong: b.k === 'strong', isText: b.k === 'text', isQuote: b.k === 'quote', isList: b.k === 'list', isPairs: b.k === 'pairs', isCards: b.k === 'cards', isCall: b.k === 'call', isImgs: b.k === 'imgs', isGallery: b.k === 'gallery', isBoard: b.k === 'board', isForm: b.k === 'form', isRefs: b.k === 'refs', isVideo: b.k === 'video', isVideos: b.k === 'videos' };
       if (b.k === 'text') { o.open = open; o.more = !!(b.rest && b.rest.length) && !all; o.btn = open ? 'Ler menos' : 'Ler mais'; o.sign = open ? '−' : '+'; o.toggle = () => this.setState(s => ({ open: { ...s.open, [b.id]: !s.open[b.id] } })); }
+      if (b.k === 'cards') o.cols = b.stack ? 'minmax(0,1fr)' : 'repeat(auto-fill,minmax(min(100%,290px),1fr))';
       if (b.k === 'part') { o.isPart = true; o.notFirst = !b.first; o.mt = b.first ? '8px' : '28px'; }
       if (b.k === 'jump') { o.isJump = true; o.items = b.items.map(j => ({ ...j, go: () => { const el = document.getElementById(j.target); if (!el) return; const hh = (document.querySelector('header') || {}).offsetHeight || 80; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - hh - 12, behavior: 'smooth' }); } })); }
       if (b.k === 'steps') { o.isSteps = true; o.items = b.items.map(s => ({ ...s, h: s.wide ? '200px' : (s.imgs.length > 2 ? '130px' : '160px') })); }
