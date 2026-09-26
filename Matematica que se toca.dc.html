@@ -27,10 +27,9 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
         </span>
         <span style="font:800 20px/1 'Baloo 2',sans-serif;padding-top:3px">Matemática que se toca</span>
       </a>
-      <nav style="display:flex;flex-wrap:wrap;gap:4px 6px;flex:1;min-width:0;padding:2px 0">
-        <button onClick="{{ goOrg }}" style="flex:none;display:flex;align-items:center;gap:7px;border:2px solid #1E2238;background:{{ orgBg }};color:{{ orgFg }};padding:7px 12px;border-radius:999px;font:700 14px 'Atkinson Hyperlegible',sans-serif;cursor:pointer">☰ Como o guia está organizado</button>
+      <nav style="display:flex;gap:6px;overflow-x:auto;flex:1;scrollbar-width:none;padding:2px 0">
         <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
-          <button onClick="{{ n.go }}" style="flex:none;display:flex;align-items:center;gap:7px;border:2px solid {{ n.bd }};background:{{ n.bg }};padding:7px 12px;border-radius:999px;font:700 14px 'Atkinson Hyperlegible',sans-serif;color:#1E2238;cursor:pointer" style-hover="background:#fff">
+          <button onClick="{{ n.go }}" style="flex:none;display:flex;align-items:center;gap:7px;border:0;background:transparent;padding:7px 12px;border-radius:999px;font:700 14px 'Atkinson Hyperlegible',sans-serif;color:#1E2238;cursor:pointer" style-hover="background:#fff">
             <span style="width:10px;height:10px;border-radius:50%;background:{{ n.c }}"></span>{{ n.label }}
           </button>
         </sc-for>
@@ -38,7 +37,6 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
     </div>
   </header>
 
-  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}"><div>
   <section id="topo" style="position:relative;overflow:hidden">
     <div style="max-width:1240px;margin:0 auto;padding:56px 20px 64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
       <div style="display:flex;flex-direction:column;gap:26px">
@@ -74,7 +72,7 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
     </div>
   </section>
 
-  <section id="organizacao" style="background:#1E2238;color:#fff;scroll-margin-top:110px">
+  <section style="background:#1E2238;color:#fff">
     <div style="max-width:1240px;margin:0 auto;padding:56px 20px;display:flex;flex-direction:column;gap:28px">
       <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:end">
         <h2 style="margin:0;font:800 clamp(32px,4vw,48px)/1 'Baloo 2',sans-serif">Como este guia está organizado</h2>
@@ -93,12 +91,10 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
     </div>
   </section>
 
-  </div></sc-if>
-  <sc-for list="{{ secs }}" as="s" hint-placeholder-count="0">
-    <section id="{{ s.id }}" style="scroll-margin-top:110px">
+  <sc-for list="{{ secs }}" as="s" hint-placeholder-count="3">
+    <section id="{{ s.id }}" style="scroll-margin-top:64px">
       <div style="background:{{ s.c }};color:{{ s.ink }}">
-        <div style="max-width:1240px;margin:0 auto;padding:24px 20px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap">
-          <button onClick="{{ s.goHome }}" style="flex-basis:100%;flex-grow:0;align-self:flex-start;width:max-content;max-width:max-content;display:flex;align-items:center;gap:8px;border:2px solid {{ s.ink }};background:transparent;color:{{ s.ink }};font:700 15px 'Atkinson Hyperlegible',sans-serif;padding:7px 16px;border-radius:999px;cursor:pointer">← Voltar ao início</button>
+        <div style="max-width:1240px;margin:0 auto;padding:44px 20px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap">
           <span style="width:92px;height:92px;flex:none;border-radius:30px;background:#fff;color:{{ s.c }};display:grid;place-items:center;font:800 44px/1 'Baloo 2',sans-serif;padding-top:6px;transform:rotate(-5deg)">{{ s.num }}</span>
           <div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1">
             <h2 style="margin:0;font:800 clamp(34px,5vw,60px)/1 'Baloo 2',sans-serif;text-wrap:balance">{{ s.title }}</h2>
@@ -133,10 +129,7 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
                 </button>
               </sc-for>
             </div>
-            <div style="margin-top:-12px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
-              <p style="margin:0;font-size:13px;color:#6A6F88">{{ fichasSrc }}</p>
-              <a href="Ficha.dc.html?n=todas&amp;imprimir=1" target="_blank" style="display:flex;align-items:center;gap:6px;background:#1E2238;color:#fff;text-decoration:none;font:800 16px 'Baloo 2',sans-serif;padding:11px 20px 8px;border-radius:999px">⬇ Baixar todas as fichas em PDF</a>
-            </div>
+            <p style="margin:-12px 0 0;font-size:13px;color:#6A6F88">{{ fichasSrc }}</p>
 
             <div id="ficha-aberta" style="scroll-margin-top:70px;background:#fff;border-radius:36px;border:4px solid {{ cur.c }};overflow:hidden">
               <div style="background:{{ cur.c }};color:{{ cur.ink }};padding:24px 28px;display:flex;gap:20px;align-items:center;flex-wrap:wrap">
@@ -150,8 +143,7 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
                     <span style="background:#fff;color:#1E2238;border-radius:999px;padding:5px 12px;font-size:14px;font-weight:700">⏱ {{ cur.tempo }}</span>
                   </div>
                 </div>
-                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-                  <a href="{{ pdfHref }}" target="_blank" style="display:flex;align-items:center;gap:6px;background:#fff;color:#1E2238;text-decoration:none;font:800 16px 'Baloo 2',sans-serif;padding:11px 18px 8px;border-radius:999px;box-shadow:0 4px 0 #1E2238">⬇ Baixar PDF</a>
+                <div style="display:flex;gap:8px">
                   <button onClick="{{ prevF }}" aria-label="Ficha anterior" style="width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:transparent;color:{{ cur.ink }};font:800 22px sans-serif;cursor:pointer">←</button>
                   <button onClick="{{ nextF }}" aria-label="Próxima ficha" style="width:48px;height:48px;border-radius:50%;border:0;background:#fff;color:#1E2238;font:800 22px sans-serif;cursor:pointer">→</button>
                 </div>
@@ -170,17 +162,6 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
               </div>
             </div>
           </div>
-        </sc-if>
-      </div>
-      <div style="max-width:1240px;margin:0 auto;padding:0 20px 64px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
-        <div style="display:flex;flex-wrap:wrap;gap:10px">
-          <sc-if value="{{ s.hasPrev }}">
-            <button onClick="{{ s.goPrev }}" style="border:3px solid #1E2238;background:#fff;color:#1E2238;font:800 18px 'Baloo 2',sans-serif;padding:10px 22px 7px;border-radius:999px;cursor:pointer">← {{ s.prevLabel }}</button>
-          </sc-if>
-          <button onClick="{{ s.goHome }}" style="border:3px solid #1E2238;background:transparent;color:#1E2238;font:800 18px 'Baloo 2',sans-serif;padding:10px 22px 7px;border-radius:999px;cursor:pointer">Início</button>
-        </div>
-        <sc-if value="{{ s.hasNext }}">
-          <button onClick="{{ s.goNext }}" style="border:0;background:{{ s.nextC }};color:{{ s.nextInk }};font:800 19px 'Baloo 2',sans-serif;padding:14px 26px 11px;border-radius:999px;cursor:pointer;box-shadow:0 5px 0 #1E2238" style-active="transform:translateY(3px);box-shadow:0 2px 0 #1E2238">Próxima: {{ s.nextLabel }} →</button>
         </sc-if>
       </div>
     </section>
@@ -217,23 +198,13 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;expandAll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Leitura&quot;}}">
 class Component extends DCLogic {
-  state = { d: null, f: 0, tab: 0, page: (location.hash || '').slice(1) };
+  state = { d: null, f: 0, tab: 0 };
   componentDidMount() {
     fetch('guia.json').then(r => r.json()).then(d => this.setState({ d }));
-    this.onHash = () => {
-      const p = (location.hash || '').slice(1);
-      this.setState({ page: p });
-      window.scrollTo(0, 0);
-      if (p === 'organizacao') setTimeout(() => this.go('organizacao'), 60);
-    };
-    if (this.state.page === 'organizacao') setTimeout(() => this.go('organizacao'), 600);
-    window.addEventListener('hashchange', this.onHash);
   }
-  componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); }
-  nav(id) { location.hash = id || 'inicio'; }
   go(id) {
     const el = document.getElementById(id);
-    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - (document.querySelector('header')?.offsetHeight || 64) - 8, behavior: 'smooth' });
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: 'smooth' });
   }
   renderVals() {
     const d = this.state.d;
@@ -247,20 +218,13 @@ class Component extends DCLogic {
       planejar: 'Planejar, aplicar e avaliar o uso dos recursos',
       reflexoes: 'O que a experiência ensinou',
       referencias: 'Obras citadas neste guia',
-      autoras: 'Quem elaborou este guia',
       apendices: 'Moldes, cartelas e fichas prontos para imprimir'
     };
     const PAL = [['#2F6FE0', '#fff'], ['#FFC531', '#1E2238'], ['#EE3B4A', '#fff'], ['#1FAA64', '#fff'], ['#E6398F', '#fff'], ['#FF7A1A', '#1E2238'], ['#0FA3B1', '#fff'], ['#7C4DFF', '#fff'], ['#2F6FE0', '#fff'], ['#EE3B4A', '#fff']];
     const beads = Array.from({ length: 10 }, (_, i) => ({ n: i + 1, c: PAL[i][0], ink: PAL[i][1] }));
-    if (!d) return { isHome: true, nav: [], secs: [], tiles: [], tabs: [], meta: {}, beads, links: [], cur: {}, tabBlocks: [], resumoBlocks: [] };
+    if (!d) return { nav: [], secs: [], tiles: [], tabs: [], meta: {}, beads, links: [], cur: {}, tabBlocks: [], resumoBlocks: [] };
     const secs = d.secs.map(s => ({ ...s, desc: DESC[s.id] || '', isFichas: s.id === 'fichas' }));
-    const page = this.state.page;
-    const nav = secs.map(s => ({ label: s.label, c: s.c, ink: s.ink, num: s.num, desc: s.desc, go: () => this.nav(s.id), bg: page === s.id ? s.t : 'transparent', bd: page === s.id ? s.c : 'transparent' }));
-    const idx = secs.findIndex(s => s.id === page);
-    const view = idx < 0 ? [] : [{ ...secs[idx],
-      hasPrev: idx > 0, prevLabel: idx > 0 ? secs[idx - 1].label : '', goPrev: () => idx > 0 && this.nav(secs[idx - 1].id),
-      hasNext: idx < secs.length - 1, nextLabel: idx < secs.length - 1 ? secs[idx + 1].label : '', nextC: idx < secs.length - 1 ? secs[idx + 1].c : '', nextInk: idx < secs.length - 1 ? secs[idx + 1].ink : '', goNext: () => idx < secs.length - 1 && this.nav(secs[idx + 1].id),
-      goHome: () => this.nav('') }];
+    const nav = secs.map(s => ({ label: s.label, c: s.c, ink: s.ink, num: s.num, desc: s.desc, go: () => this.go(s.id) }));
     const fi = this.state.f, cur = d.fichas[fi];
     const pickF = i => { this.setState({ f: i, tab: 0 }); setTimeout(() => this.go('ficha-aberta'), 30); };
     const tiles = d.fichas.map((f, i) => ({ ...f, pick: () => pickF(i), border: i === fi ? '#1E2238' : 'transparent', tf: i === fi ? 'translateY(-4px)' : 'none', sh: i === fi ? '0 6px 0 #1E2238' : 'none' }));
@@ -271,19 +235,15 @@ class Component extends DCLogic {
     const tab = cur.tabs[this.state.tab] || cur.tabs[0];
     const org = d.meta.organizacao || { paras: [] };
     return {
-      isHome: idx < 0, meta: d.meta, links: d.meta.links.map(l => l.startsWith('http') ? l : 'http://' + l), beads, nav, secs: view, tiles, tabs, cur,
-      pdfHref: 'Ficha.dc.html?n=' + parseInt(cur.n) + '&imprimir=1',
+      meta: d.meta, links: d.meta.links.map(l => l.startsWith('http') ? l : 'http://' + l), beads, nav, secs, tiles, tabs, cur,
       tabBlocks: tab.blocks, tabTitle: tab.full,
       hasResumo: !!cur.resumo, resumoBlocks: cur.resumo ? [cur.resumo] : [],
       fichasCap: d.fichasIntro.cap, fichasSrc: d.fichasIntro.src,
-      orgLead: 'Onze paradas, cada uma com sua cor. Cada ficha é independente e pode ser usada isoladamente.',
+      orgLead: 'Dez paradas, cada uma com sua cor. Cada ficha é independente e pode ser usada isoladamente.',
       orgTip: org.paras[1] || '',
       expandAll: !!this.props.expandAll,
-      goTop: e => { e.preventDefault(); this.nav(''); },
-      goOrg: () => { if (location.hash === '#organizacao') this.go('organizacao'); else this.nav('organizacao'); },
-      orgBg: this.state.page === 'organizacao' ? '#1E2238' : '#fff',
-      orgFg: this.state.page === 'organizacao' ? '#fff' : '#1E2238',
-      goFichas: () => this.nav('fichas'), goApresentacao: () => this.nav('apresentacao'),
+      goTop: e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); },
+      goFichas: () => this.go('fichas'), goApresentacao: () => this.go('apresentacao'),
       prevF: () => this.setState({ f: (fi + 8) % 9, tab: 0 }), nextF: () => this.setState({ f: (fi + 1) % 9, tab: 0 })
     };
   }
