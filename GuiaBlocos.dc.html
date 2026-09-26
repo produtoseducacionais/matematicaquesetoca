@@ -9,8 +9,28 @@
 <x-dc>
 <div lang="pt-BR" style="display:flex;flex-direction:column;gap:22px;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;color:#1E2238">
 <sc-for list="{{ items }}" as="b" hint-placeholder-count="3">
+  <sc-if value="{{ b.isJump }}">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;background:#fff;border-radius:24px;padding:16px;border:3px dashed {{ accent }}">
+      <sc-for list="{{ b.items }}" as="j">
+        <button onClick="{{ j.go }}" style="display:flex;align-items:center;gap:8px;border:0;background:{{ j.c }};color:{{ j.ink }};font:800 16px 'Baloo 2',sans-serif;padding:10px 16px 7px;border-radius:999px;cursor:pointer;box-shadow:0 3px 0 #1E2238" style-active="transform:translateY(2px);box-shadow:0 1px 0 #1E2238"><span style="width:24px;height:24px;border-radius:50%;background:#fff;color:#1E2238;display:grid;place-items:center;font-size:13px;padding-top:2px">{{ j.n }}</span>{{ j.label }}</button>
+      </sc-for>
+    </div>
+  </sc-if>
+  <sc-if value="{{ b.isPart }}">
+    <div style="display:flex;flex-direction:column;gap:0;margin-top:{{ b.mt }}">
+      <sc-if value="{{ b.notFirst }}"><div style="height:0;border-top:4px dotted #C9CCD8;margin:8px 0 40px"></div></sc-if>
+      <div id="{{ b.anchor }}" style="scroll-margin-top:120px;background:{{ b.c }};color:{{ b.ink }};border-radius:30px;padding:26px 30px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+        <span style="flex:none;width:72px;height:72px;border-radius:24px;background:#fff;color:{{ b.c }};display:grid;place-items:center;font:800 36px 'Baloo 2',sans-serif;padding-top:4px;transform:rotate(-5deg)">{{ b.n }}</span>
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0;flex:1">
+          <span style="font:700 14px 'Atkinson Hyperlegible',sans-serif;letter-spacing:.1em;text-transform:uppercase">{{ b.tag }}</span>
+          <h3 style="margin:0;font:800 clamp(26px,3.4vw,40px)/1.05 'Baloo 2',sans-serif;text-wrap:balance">{{ b.x }}</h3>
+        </div>
+      </div>
+      <div style="height:10px;background:{{ b.t }};border-radius:0 0 20px 20px;margin:0 24px"></div>
+    </div>
+  </sc-if>
   <sc-if value="{{ b.isH }}">
-    <div style="display:flex;align-items:center;gap:14px;margin-top:26px">
+    <div id="{{ b.anchor }}" style="display:flex;align-items:center;gap:14px;margin-top:26px;scroll-margin-top:120px">
       <span style="width:18px;height:18px;border-radius:50%;background:{{ accent }};flex:none"></span>
       <h3 style="margin:0;font-family:'Baloo 2',system-ui,sans-serif;font-weight:800;font-size:clamp(24px,3vw,34px);line-height:1.1;text-wrap:balance">{{ b.x }}</h3>
     </div>
@@ -73,6 +93,9 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:14px">
         <sc-for list="{{ b.cards }}" as="cd">
           <div style="background:{{ cd.t }};border-radius:24px;overflow:hidden;display:flex;flex-direction:column">
+            <sc-if value="{{ cd.img }}">
+              <img src="{{ cd.img }}" alt="{{ cd.title }}" style="width:100%;height:240px;object-fit:cover;object-position:center;display:block;flex:none;background:#fff">
+            </sc-if>
             <div style="background:{{ cd.c }};color:{{ cd.ink }};padding:14px 18px;font:800 19px/1.2 'Baloo 2',sans-serif;white-space:pre-line">{{ cd.title }}</div>
             <div style="padding:14px 18px 18px;display:flex;flex-direction:column;gap:12px">
               <sc-for list="{{ cd.f }}" as="fl">
@@ -222,6 +245,8 @@ class Component extends DCLogic {
       const open = all || !!this.state.open[b.id];
       const o = { ...b, isH: b.k === 'h', isH3: b.k === 'h3', isStrong: b.k === 'strong', isText: b.k === 'text', isQuote: b.k === 'quote', isList: b.k === 'list', isPairs: b.k === 'pairs', isCards: b.k === 'cards', isCall: b.k === 'call', isImgs: b.k === 'imgs', isGallery: b.k === 'gallery', isBoard: b.k === 'board', isForm: b.k === 'form', isRefs: b.k === 'refs', isVideo: b.k === 'video', isVideos: b.k === 'videos' };
       if (b.k === 'text') { o.open = open; o.more = !!(b.rest && b.rest.length) && !all; o.btn = open ? 'Ler menos' : 'Ler mais'; o.sign = open ? '−' : '+'; o.toggle = () => this.setState(s => ({ open: { ...s.open, [b.id]: !s.open[b.id] } })); }
+      if (b.k === 'part') { o.isPart = true; o.notFirst = !b.first; o.mt = b.first ? '8px' : '28px'; }
+      if (b.k === 'jump') { o.isJump = true; o.items = b.items.map(j => ({ ...j, go: () => { const el = document.getElementById(j.target); if (!el) return; const hh = (document.querySelector('header') || {}).offsetHeight || 80; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - hh - 12, behavior: 'smooth' }); } })); }
       if (b.k === 'steps') { o.isSteps = true; o.items = b.items.map(s => ({ ...s, h: s.wide ? '200px' : (s.imgs.length > 2 ? '130px' : '160px') })); }
       if (b.k === 'video') { o.ytV = !!(b.yt && b.vertical); o.ytH = !!(b.yt && !b.vertical); o.file = !!b.file && !b.yt; o.folder = !b.file && !b.yt; }
       if (b.k === 'list') o.items = b.items.map(it => ({ ...it, mark: b.ordered ? it.n : '●' }));
