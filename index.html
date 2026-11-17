@@ -237,8 +237,19 @@ a{color:#2F6FE0}a:hover{color:#E6398F}
       </div>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div style="font:800 17px 'Baloo 2',sans-serif;color:#6FE3A5">Ficha catalográfica</div>
-        <div style="background:#2A2F4C;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:8px">
-          <sc-for list="{{ meta.catalog }}" as="c"><p style="margin:0;font-size:13px;line-height:1.5;color:#E6E8F2">{{ c }}</p></sc-for>
+        <div style="color:#fff;padding:4px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35">
+          <div style="border:1px solid #fff;padding:10px 8px 4px;display:grid;grid-template-columns:62px 1fr;column-gap:6px">
+            <span>S586m</span>
+            <div style="display:flex;flex-direction:column">
+              <p style="margin:0">Silva, Anelise Jantzen da</p>
+              <p style="margin:0;text-indent:1.4em">Matemática que se toca – Guia de construção e uso de recursos pedagógicos inclusivos no ensino da Matemática nos anos iniciais/ Anelise Jantzen da Silva, Maria Isabel Giusti Moreira. – 2026.</p>
+              <p style="margin:0;text-indent:1.4em">1 recurso eletrônico (site).</p>
+              <p style="margin:1.6em 0 0;text-indent:1.4em">Produto educacional (Mestrado) – Instituto Federal Sul-Rio-Grandense, Câmpus Pelotas Visconde da Graça, Programa de Pós - graduação em Ciências e Tecnologias da Educação, 2026.</p>
+              <p style="margin:2.2em 0 0;text-indent:1.4em">1. Tecnologias na educação. 2. Educação inclusiva. 3. Formação de professores. 4. Ensino de Matemática. I. Moreira, Maria Isabel Giusti (aut.). II. Título.</p>
+              <p style="margin:2.2em 0 0;text-align:right">CDU: 378.046-021.68:376:51</p>
+            </div>
+          </div>
+          <p style="margin:6px 0 0;text-align:center">Catalogação na fonte elaborada pelo Bibliotecário<br>Vitor Gonçalves Dias CRB 10/1938<br>Câmpus Pelotas Visconde da Graça</p>
         </div>
         <div style="font:800 17px 'Baloo 2',sans-serif;color:#7FD8FF">Licença</div>
         <sc-for list="{{ meta.licenca }}" as="l"><p style="margin:0;font-size:13.5px;line-height:1.5;color:#E6E8F2">{{ l }}</p></sc-for>
